@@ -1,10 +1,10 @@
-const { Sequelize } = require('sequelize')
+const { Sequelize } = require("sequelize");
 
 // Database
 const sequelize = new Sequelize(
-  '', // TODO: database connection string
+  process.env.DATABASE_URL, // TODO: database connection string
   {
-    dialect: 'postgres',
+    dialect: "postgres",
     dialectOptions: {
       ssl: {
         require: true,
@@ -12,29 +12,29 @@ const sequelize = new Sequelize(
       },
     },
     define: {
-      createdAt: 'added',
-      updatedAt: 'updated',
-    }
+      createdAt: "added",
+      updatedAt: "updated",
+    },
   },
-)
+);
 
 // Database initialization
 async function initDatabase() {
   try {
-    await sequelize.authenticate()
-    console.log('✓ Database connection established')
+    await sequelize.authenticate();
+    console.log("✓ Database connection established");
 
-    await sequelize.sync()
-    console.log('✓ Models synchronized')
+    await sequelize.sync();
+    console.log("✓ Models synchronized");
 
     // Import and execute seeder
-    const initializeData = require('./seeders/init-data')
-    await initializeData()
+    const initializeData = require("./seeders/init-data");
+    await initializeData();
   } catch (error) {
-    console.error('Error during database initialization:', error)
+    console.error("Error during database initialization:", error);
   }
 }
 
-initDatabase()
+initDatabase();
 
-module.exports = sequelize
+module.exports = sequelize;
